@@ -1,0 +1,23 @@
+name: Render Video
+on: [push]
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install Manim
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          pip install manim
+      - name: Create Video
+        run: manim -qm main.py HydrogenScience
+      - name: Save Video
+        uses: actions/upload-artifact@v2
+        with:
+          name: Science-Video
+          path: media/videos/main/720p30/HydrogenScience.mp4
